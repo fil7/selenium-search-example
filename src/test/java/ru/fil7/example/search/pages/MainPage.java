@@ -11,14 +11,22 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class MainPage extends Page {
 
-    @FindBy(css = "a.autoDetCity-select")
-    public WebElement autoSelectRegion;
+    @FindBy(css = ".autoDetCity > .close")
+    public WebElement btnCloseAutoDetect;
+
+    @FindBy(css = ".autoDetCity-buttons > a.autoDetCity-select")
+    public WebElement btnSelectRegion;
 
     @FindBy(name = "search_block_form")
     public WebElement searchField;
 
+    @FindBy(css = ".content .select-region-link")
+    public WebElement linkSelectAnotherRegion;
+
+
+
     @FindBy(css = "div.chooseRegionAndCity")
-    public WebElement regionMap;
+    public WebElement regionAndCityList;
 
     public By resultSearchTitle = By.cssSelector("#page-title");
 
@@ -30,22 +38,21 @@ public class MainPage extends Page {
         PageFactory.initElements(driver, this);
     }
 
-    public void selectRegion(String regionName, String cityName) {
-        autoSelectRegion.click();
-        driver.findElement(By.partialLinkText(regionName))
-                .click();
-        driver.findElement(By.partialLinkText(cityName))
-                .click();
-    }
-
-
     public void searchOfPerson(String personName) {
+        // wait for list of regions to disappear
         wait.until(
                 ExpectedConditions.not(
-                        ExpectedConditions.visibilityOf(regionMap)));
+                        ExpectedConditions.visibilityOf(regionAndCityList)));
         searchField.clear();
         searchField.sendKeys(personName + Keys.ENTER);
         wait.until(
                 ExpectedConditions.visibilityOf(driver.findElement(resultSearchTitle)));
+    }
+
+    public void selectRegionAndCity(String regionName, String cityName) {
+        driver.findElement(By.partialLinkText(regionName))
+                .click();
+        driver.findElement(By.partialLinkText(cityName))
+                .click();
     }
 }
