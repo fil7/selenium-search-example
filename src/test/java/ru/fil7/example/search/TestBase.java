@@ -19,7 +19,7 @@ public class TestBase {
 
     @Before
     public void start() {
-        System.setProperty("webdriver.chrome.driver", System.getenv("SELENIUM_HOME") + "\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "src\\test\\resources\\selenium\\chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver, TIMEOUT);
